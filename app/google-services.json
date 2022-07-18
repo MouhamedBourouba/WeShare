@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "621197040150",
+    "firebase_url": "https://weshare-74a4b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "weshare-74a4b",
+    "storage_bucket": "weshare-74a4b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621197040150:android:be12cabf8d54c5ba3df337",
+        "android_client_info": {
+          "package_name": "com.example.weshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "621197040150-k7cpiduiqslttdb50bh9f70ag062m35v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.weshare",
+            "certificate_hash": "a63285d26f16899e81c95f6090a7b12ca194f06b"
+          }
+        },
+        {
+          "client_id": "621197040150-pq88n6chlcilc15899vrstfkbnljedo1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQx4uI1cJkGuyRehtHEUDHlu5o-mIcpAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621197040150-pq88n6chlcilc15899vrstfkbnljedo1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,7 @@
-package com.example.weshare.ui.screens.emailAuth
+package com.example.weshare.ui.screens.Auth
 
 
-data class EmailAuthUiState(
+data class AuthUiState(
     var userName: String = "",
     var email: String = "",
     var password: String = "",
