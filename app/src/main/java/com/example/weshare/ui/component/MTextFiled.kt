@@ -13,9 +13,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -30,9 +35,14 @@ fun MTextFiled(
     placeholder: String,
     leadingIcon: ImageVector,
     isPasswordTextFieldValue: Boolean = false,
+    focusDirection: FocusDirection = FocusDirection.Down,
+    clearFocus: Boolean = false,
     maxLines: Int = 1,
     keyboardType: KeyboardType = KeyboardType.Text,
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+
     val keyboard = LocalSoftwareKeyboardController.current
 
     val isVisible = remember {
@@ -43,21 +53,27 @@ fun MTextFiled(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 15.dp),
+                .padding(horizontal = 15.dp)
+                .focusRequester(focusRequester),
             value = value,
             onValueChange = onChangeListener,
             label = { Text(text = placeholder) },
             leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = null, tint = Color.Black.copy(0.8f)) },
-            keyboardActions = KeyboardActions(onDone = { keyboard?.hide() }),
+            keyboardActions = KeyboardActions(onDone = {
+                keyboard?.hide()
+                if (clearFocus) focusManager.clearFocus(true)
+                else focusManager.moveFocus(focusDirection)
+            }),
             maxLines = maxLines,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 containerColor = Color.White
             ),
             keyboardOptions =
-            if (isPasswordTextFieldValue) KeyboardOptions(keyboardType = KeyboardType.Password)
+            if (isPasswordTextFieldValue) KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done)
             else KeyboardOptions(
-                keyboardType = keyboardType
+                keyboardType = keyboardType,
+                imeAction = ImeAction.Done
             ),
             visualTransformation =
             if (isPasswordTextFieldValue && !isVisible.value) PasswordVisualTransformation()
