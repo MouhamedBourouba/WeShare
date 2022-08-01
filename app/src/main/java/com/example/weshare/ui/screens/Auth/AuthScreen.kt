@@ -205,7 +205,7 @@ private fun LoginOrRegister(viewModel: AuhViewModel) {
                 viewModel.onEvent(AuthUiEvent.UserNameTextChanged(it))
             },
             leadingIcon = Icons.Filled.Person,
-            placeholder = "Name",
+            label = "Name",
             focusDirection = FocusDirection.Down
         )
 
@@ -214,7 +214,7 @@ private fun LoginOrRegister(viewModel: AuhViewModel) {
             onChangeListener = {
                 viewModel.onEvent(AuthUiEvent.EmailTextChanged(it))
             },
-            placeholder = "Email",
+            label = "Email",
             leadingIcon = Icons.Filled.Email,
             focusDirection = FocusDirection.Down
         )
@@ -224,7 +224,7 @@ private fun LoginOrRegister(viewModel: AuhViewModel) {
             onChangeListener = {
                 viewModel.onEvent(AuthUiEvent.PasswordTextChanged(it))
             },
-            placeholder = "Password",
+            label = "Password",
             leadingIcon = Icons.Filled.Lock,
             isPasswordTextFieldValue = true,
             clearFocus = true

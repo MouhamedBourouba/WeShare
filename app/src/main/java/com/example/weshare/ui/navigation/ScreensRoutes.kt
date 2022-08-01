@@ -9,4 +9,5 @@ sealed class ScreensRoutes(val route: String) {
     object Profile: ScreensRoutes("profile")
     object Search: ScreensRoutes("search")
     object AddPost: ScreensRoutes("add_post")
+    object EditAccount: ScreensRoutes("edit_account")
 }

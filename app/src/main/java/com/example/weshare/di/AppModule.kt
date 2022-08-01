@@ -2,6 +2,8 @@ package com.example.weshare.di
 
 import android.content.Context
 import com.example.weshare.data.localdb.RoomDataBase
+import com.example.weshare.domain.repository.Profile.ProfileRepository
+import com.example.weshare.domain.repository.Profile.ProfileRepositoryImp
 import com.example.weshare.domain.repository.auth.AuthRepository
 import com.example.weshare.domain.repository.auth.FirebaseAuthRepositoryImp
 import com.example.weshare.domain.repository.complete_account.CompleteAccountRepository
@@ -46,5 +48,7 @@ object AppModule {
     @Singleton
     fun providesSearchRepository(): SearchRepository = SearchRepositoryImp()
 
-
+    @Provides
+    @Singleton
+    fun providesProfileRepository(roomDataBase: RoomDataBase): ProfileRepository = ProfileRepositoryImp(roomDataBase)
 }

@@ -2,6 +2,7 @@ package com.example.weshare.ui.screens.complete_account
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.widget.NumberPicker
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -104,7 +105,7 @@ private fun ImagePicker(viewModel: CompleteAccountViewModel) {
                         .size(150.dp)
                         .clip(CircleShape)
                         .clickable {
-                            if (!viewModel.loading) launcher.launch(Intent(Intent.ACTION_PICK).also {
+                            launcher.launch(Intent(Intent.ACTION_PICK).also {
                                 it.type = "image/*"
                             })
                         }

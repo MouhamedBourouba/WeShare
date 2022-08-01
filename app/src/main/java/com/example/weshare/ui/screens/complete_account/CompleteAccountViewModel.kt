@@ -47,54 +47,10 @@ class CompleteAccountViewModel @Inject constructor(
     }
 
     fun uploadImage() {
-        viewModelScope.launch {
-            loading = true
-            when (val uploadImageResult = completeAccountRepository.uploadImage(imageUri!!)) {
-                is Result.Error -> {
-                    _taskChannel.send(Result.Error(uploadImageResult.message!!))
-                }
-                is Result.Success -> {
-                    user.imageUrl = uploadImageResult.data
 
-                    when (val updateAccountResult = completeAccountRepository.updateAccount(
-                        "imageUrl",
-                        uploadImageResult.data!!
-                    )) {
-                        is Result.Error -> _taskChannel.send(Result.Error(updateAccountResult.message!!))
-                        is Result.Success -> _taskChannel.send(Result.Success(user.isAccountCompleted()))
-                    }
-                }
-            }
-            loading = false
-        }
     }
 
     fun updateAccount(field: String, value: Any) = viewModelScope.launch {
-        if (loading) return@launch
 
-        loading = true
-        when (val updateResult = completeAccountRepository.updateAccount(field, value)) {
-            is Result.Error -> _taskChannel.send(
-                Result.Error(
-                    updateResult.message ?: "Unknown Error"
-                )
-            )
-            is Result.Success -> {
-                _taskChannel.send(
-                    when (field) {
-                        "age" -> {
-                            user.age = value.toString().toInt()
-                            Result.Success(user.isAccountCompleted())
-                        }
-                        "gender" -> {
-                            user.gender = value.toString().toBoolean()
-                            Result.Success(user.isAccountCompleted())
-                        }
-                        else -> Result.Success(user.isAccountCompleted())
-                    }
-                )
-            }
-        }
-        loading = false
     }
 }

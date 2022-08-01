@@ -17,8 +17,6 @@ import androidx.compose.material.icons.filled.PersonSearch
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -28,10 +26,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.weshare.domain.model.User
@@ -39,7 +35,6 @@ import com.example.weshare.ui.component.AnimatedShimmer
 import com.example.weshare.ui.component.MTextFiled
 import com.example.weshare.ui.theme.spacing
 import es.dmoral.toasty.Toasty
-import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -61,7 +56,7 @@ fun Search(navController: NavController, searchViewModel: SearchViewModel = hilt
                     searchViewModel.textFieldValue = textField
                     searchViewModel.usersSearchList = searchViewModel.users.filter { it.username.lowercase().contains(textField.lowercase()) }
                 },
-                placeholder = "User Name",
+                label = "User Name",
                 leadingIcon = Icons.Filled.PersonSearch,
                 maxLines = 1,
                 clearFocus = true
@@ -134,17 +129,20 @@ private fun LazyItemScope.UserItem(imageUrl: String?, username: String) {
 
 @Composable
 private fun TopBar(navController: NavController) {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(text = "Search")
-        },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.White),
-        navigationIcon = {
-            IconButton(onClick = { navController.navigateUp() }) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+    Column {
+        CenterAlignedTopAppBar(
+            title = {
+                Text(text = "Search")
+            },
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.White),
+            navigationIcon = {
+                IconButton(onClick = { navController.navigateUp() }) {
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                }
             }
-        }
-    )
+        )
+        Divider(thickness = 1.dp, color = Color.LightGray.copy(0.7f))
+    }
 }
 
 @Composable

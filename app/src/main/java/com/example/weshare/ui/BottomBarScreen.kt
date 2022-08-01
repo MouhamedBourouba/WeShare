@@ -6,13 +6,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.AddCircleOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -30,8 +33,9 @@ fun BottomBarScreen(navController: NavHostController = rememberNavController()) 
     val bottomBarItems = listOf(
         BottomNavItem("Home", Icons.Filled.Home, ScreensRoutes.Home.route),
         BottomNavItem("Chat", Icons.Filled.Chat, ScreensRoutes.Chat.route),
+        BottomNavItem("Post", icon = Icons.Outlined.AddCircleOutline, ScreensRoutes.AddPost.route),
         BottomNavItem(
-            "Notifications",
+            "Activities",
             Icons.Filled.Notifications,
             ScreensRoutes.Notifications.route
         ),
@@ -40,21 +44,25 @@ fun BottomBarScreen(navController: NavHostController = rememberNavController()) 
     val navBackStackEntry = navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry.value?.destination
 
-    val bottomBarDestination = bottomBarItems.any { it.route == currentDestination?.route }
+    val bottomBarDestination = bottomBarItems.any {
+        if (currentDestination?.route == ScreensRoutes.AddPost.route) false
+        else it.route == currentDestination?.route
+    }
     Log.d("TAG", "BottomBarScreen: ${currentDestination?.route}")
 
     val topBarTitle = { route: String? ->
         when (route) {
-            ScreensRoutes.Profile.route -> "Your Account"
+            ScreensRoutes.Profile.route -> "Profile"
             ScreensRoutes.Chat.route -> "Chat"
             ScreensRoutes.Home.route -> "Main Feed"
-            ScreensRoutes.Notifications.route -> "Notifications"
+            ScreensRoutes.Notifications.route -> "Activities"
             else -> null
         }
     }
     val topBarActionIcon = { route: String? ->
         when (route) {
             ScreensRoutes.Home.route -> Icons.Filled.Search
+            ScreensRoutes.Profile.route -> Icons.Filled.Edit
             else -> null
         }
     }
@@ -68,23 +76,27 @@ fun BottomBarScreen(navController: NavHostController = rememberNavController()) 
                     title = topBarTitle(currentDestination?.route) ?: "...",
                     actionsIcon = topBarActionIcon(currentDestination?.route)
                 ) {
-                    navController.navigate(ScreensRoutes.Search.route)
+                    when (currentDestination?.route) {
+                        ScreensRoutes.Profile.route -> navController.navigate(ScreensRoutes.EditAccount.route)
+                        ScreensRoutes.Home.route -> navController.navigate(ScreensRoutes.Search.route)
+
+                    }
                 }
             },
 
             floatingActionButtonPosition = FabPosition.End,
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = {
-                        navController.navigate(ScreensRoutes.AddPost.route)
-                    },
-                    shape = CircleShape,
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = Color.White,
-                ) {
-                    Icon(imageVector = Icons.Filled.Add, contentDescription = null)
-                }
-            },
+//            floatingActionButton = {
+//                FloatingActionButton(
+//                    onClick = {
+//                        navController.navigate(ScreensRoutes.AddPost.route)
+//                    },
+//                    shape = CircleShape,
+//                    containerColor = MaterialTheme.colorScheme.primary,
+//                    contentColor = Color.White,
+//                ) {
+//                    Icon(imageVector = Icons.Filled.Add, contentDescription = null)
+//                }
+//            },
             bottomBar = {
                 BottomBar(
                     bottomNavItem = bottomBarItems,
@@ -109,7 +121,7 @@ fun BottomBarScreen(navController: NavHostController = rememberNavController()) 
 
 
 @Composable
-fun TopBar(title: String, actionsIcon: ImageVector?, onSearchIconClick: () -> Unit) {
+private fun TopBar(title: String, actionsIcon: ImageVector?, onSearchIconClick: () -> Unit) {
     Column {
         SmallTopAppBar(
             title = {
@@ -182,7 +194,8 @@ fun RowScope.AddItem(selected: Boolean, icon: ImageVector, label: String, onClic
         colors = NavigationBarItemDefaults.colors(
             selectedIconColor = MaterialTheme.colorScheme.primary,
             indicatorColor = Color.White,
-            selectedTextColor = MaterialTheme.colorScheme.primary
+            selectedTextColor = MaterialTheme.colorScheme.primary,
+            unselectedIconColor = if (label == "Post") Color.Black else MaterialTheme.colorScheme.onSurfaceVariant
         )
     )
 }

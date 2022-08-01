@@ -52,19 +52,20 @@ class AuhViewModel @Inject constructor(
     }
 
     fun onEvent(event: AuthUiEvent) {
-        // ignore user actions while loading screen is UP
-        if (loading) return
         when (event) {
             is AuthUiEvent.EmailTextChanged -> {
                 uiState.value = uiState.value.copy(email = event.text)
                 enableButton()
             }
             is AuthUiEvent.UserNameTextChanged -> {
-                uiState.value = uiState.value.copy(userName = event.text)
+                if (event.text.toCharArray().size < 30) uiState.value =
+                    uiState.value.copy(userName = event.text)
                 enableButton()
             }
             is AuthUiEvent.PasswordTextChanged -> {
-                uiState.value = uiState.value.copy(password = event.text)
+                if (event.text.toCharArray().size < 30) {
+                    uiState.value = uiState.value.copy(password = event.text)
+                }
                 enableButton()
             }
             is AuthUiEvent.ChangeScreen -> {

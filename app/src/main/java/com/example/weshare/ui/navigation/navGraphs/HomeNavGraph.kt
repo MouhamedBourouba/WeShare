@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.example.weshare.ui.navigation.Graph
 import com.example.weshare.ui.navigation.ScreensRoutes
 import com.example.weshare.ui.screens.chat.Chat
+import com.example.weshare.ui.screens.edit_account.EditAccount
 import com.example.weshare.ui.screens.home.Home
 import com.example.weshare.ui.screens.notification.Notification
 import com.example.weshare.ui.screens.post.AddPost
@@ -37,7 +38,10 @@ fun HomeNavGraph(navController: NavController) {
             Search(navController)
         }
         composable(ScreensRoutes.AddPost.route) {
-            AddPost()
+            AddPost(navController)
+        }
+        composable(ScreensRoutes.EditAccount.route) {
+            EditAccount(navController)
         }
     }
 }

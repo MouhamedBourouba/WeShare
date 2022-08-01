@@ -33,10 +33,11 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
             when (gettingUsersResult) {
                 is Result.Error -> _errorChannel.send(gettingUsersResult.message!!)
                 is Result.Success -> {
-                    // bc i want to let them see My Animation ;=)
+                    val usersResult = gettingUsersResult.data!!
+                    // bc i wanna let them see my animation ;=)
                     delay(300L)
-                    users = gettingUsersResult.data!!
-                    usersSearchList = users
+                    users = usersResult
+                    usersSearchList = usersResult
                 }
             }
             Log.d("search", "${gettingUsersResult.data}: ")

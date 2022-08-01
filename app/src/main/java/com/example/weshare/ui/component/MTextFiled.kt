@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.widget.Placeholder
 import com.example.weshare.ui.theme.WeShareTheme
 
 @ExperimentalComposeUiApi
@@ -32,7 +33,8 @@ import com.example.weshare.ui.theme.WeShareTheme
 fun MTextFiled(
     value: String,
     onChangeListener: (String) -> Unit,
-    placeholder: String,
+    placeholder: String? = null,
+    label: String,
     leadingIcon: ImageVector,
     isPasswordTextFieldValue: Boolean = false,
     focusDirection: FocusDirection = FocusDirection.Down,
@@ -57,7 +59,8 @@ fun MTextFiled(
                 .focusRequester(focusRequester),
             value = value,
             onValueChange = onChangeListener,
-            label = { Text(text = placeholder) },
+            label = { Text(text = label) },
+            placeholder =  { Text(text = placeholder ?: label)},
             leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = null, tint = Color.Black.copy(0.8f)) },
             keyboardActions = KeyboardActions(onDone = {
                 keyboard?.hide()

@@ -18,6 +18,8 @@ data class User(
     var imageUrl: String? = null,
     val isOnline: Boolean = false,
     var age: Int? = null,
+    var posts: List<String> = arrayListOf(),
+    var bio: String = "No Bio",
     var gender: Boolean? = null,
     val followers: List<String> = arrayListOf(),
     val following: List<String> = arrayListOf(),
